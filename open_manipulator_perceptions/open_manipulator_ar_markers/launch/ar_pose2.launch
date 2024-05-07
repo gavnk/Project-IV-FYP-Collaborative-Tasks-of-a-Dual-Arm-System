@@ -1,0 +1,69 @@
+<launch>
+  <arg name="use_platform"	   default="true" />
+  <arg name="use_state_publisher" default="false"/>
+  <arg name="open_rviz"           default="false"/>
+  <arg name="marker_frame_id"     default="world"/>
+  <arg name="user_marker_size"	  default="3.0"/>
+
+  <arg name="camera_model" default="realsense_d435i" />
+  <arg name="camera_namespace" default="left_camera"/>
+  <arg name="rgb_camera_info_url"   default="package://open_manipulator_camera/camera_info/$(arg camera_model).yaml" />
+  <arg name="depth_camera_info_url" default="" />
+  <arg name="serial_no"           default="213322070835"/>
+
+  <group if="$(arg use_state_publisher)">
+    <param name="robot_description"
+          command="$(find xacro)/xacro --inorder '$(find open_manipulator_description)/urdf/2open_manipulator_robots.urdf.xacro'"/>
+
+    <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher">
+      <rosparam param="source_list" subst_value="true">["joint_states"]</rosparam>
+    </node>
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+  </group>
+
+ 
+    <group if="$(eval camera_model == 'realsense_d435i')">
+      <include file="$(find realsense2_camera)/launch/rs_camera.launch">
+        <arg name="camera"                value="$(arg camera_namespace)"/>
+        <arg name="enable_pointcloud"     value="true" />
+        <arg name="serial_no"           value="$(arg serial_no)"/>
+      </include>
+
+    <node pkg="tf" type="static_transform_publisher" name="camera_frame_to_realsense_frame2"
+      args="0.070 0.02 0.052 0 0 0 left_link5 left_camera_link 10" />
+
+      <include file="$(find ar_track_alvar)/launch/pr2_indiv_no_kinect2.launch">
+        <arg name="marker_size" value="$(arg user_marker_size)" />
+        <arg name="max_new_marker_error" value="0.08" />
+        <arg name="max_track_error" value="0.2" />
+          <!-- This is a comment 
+        <arg name="cam_image_topic" value="$(arg camera_namespace)/color/image_raw" />
+        <arg name="cam_info_topic" value="$(arg camera_namespace)/color/camera_info" />
+        
+        -->
+        <arg name="cam_image_topic" value="$(arg camera_namespace)/color/image_raw" />
+        <arg name="cam_info_topic" value="$(arg camera_namespace)/color/camera_info" />
+        
+        <arg name="output_frame" value="$(arg marker_frame_id)" />
+      </include>
+    </group>
+
+  
+
+  <group unless="$(arg use_platform)">
+      <include file="$(find ar_track_alvar)/launch/pr2_indiv_no_kinect.launch">
+      <arg name="marker_size" value="$(arg user_marker_size)" />
+      <arg name="max_new_marker_error" value="0.08" />
+      <arg name="max_track_error" value="0.2" />
+      <arg name="cam_image_topic" value="$(arg camera_namespace)/rgb/image_raw" />
+      <arg name="cam_info_topic" value="$(arg camera_namespace)/rgb/camera_info" />
+      <arg name="output_frame" value="$(arg marker_frame_id)" />
+    </include>
+  </group>
+
+  <group if="$(arg open_rviz)">
+    <node pkg="rviz" type="rviz" name="rviz" required="true"
+      args="-d $(find open_manipulator_ar_markers)/rviz/ar_marker.rviz"/>
+  </group>
+</launch>

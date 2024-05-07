@@ -1,0 +1,5 @@
+<!-- Passing of an object  -->
+
+<launch>
+  <node name="task1" pkg="open_manipulator_pick_and_place" type="task1" output="screen"/>
+</launch>

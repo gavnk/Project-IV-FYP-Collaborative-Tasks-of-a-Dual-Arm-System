@@ -1,0 +1,5 @@
+<!-- Picking up an object together  -->
+
+<launch>
+  <node name="task2" pkg="open_manipulator_pick_and_place" type="task2" output="screen"/>
+</launch>

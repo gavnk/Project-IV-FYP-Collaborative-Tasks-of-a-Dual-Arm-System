@@ -1,0 +1,6 @@
+<!-- balancing object on beam with PID moving object in y-direction -->
+
+
+<launch>
+  <node name="task4_PID" pkg="open_manipulator_pick_and_place" type="task4_PID" output="screen"/>
+</launch>
