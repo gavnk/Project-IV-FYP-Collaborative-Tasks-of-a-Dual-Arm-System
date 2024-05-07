@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Transmission macro -->
+  <xacro:macro name="SimpleTransmissionPosition" params="joint n">
+    <transmission name="tran${n}">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${joint}">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="motor${n}">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+  </xacro:macro>
+
+  <!-- Transmission macro -->
+  <xacro:macro name="SimpleTransmissionEffort" params="joint n">
+    <transmission name="tran${n}">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${joint}">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="motor${n}">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+  </xacro:macro>
+  
+<!-- left arm-->
+  <!-- Transmission 1 -->
+  <xacro:SimpleTransmissionPosition n="left1" joint="left_joint1" />
+
+  <!-- Transmission 2 -->
+  <xacro:SimpleTransmissionPosition n="left2" joint="left_joint2" />
+
+  <!-- Transmission 3 -->
+  <xacro:SimpleTransmissionPosition n="left3" joint="left_joint3" />
+
+  <!-- Transmission 4 -->
+  <xacro:SimpleTransmissionPosition n="left4" joint="left_joint4" />
+
+  <!-- Transmission 5 -->
+  <xacro:SimpleTransmissionEffort n="left5" joint="left_gripper" />
+
+  <!-- Transmission 6 -->
+  <xacro:SimpleTransmissionEffort n="left6" joint="left_gripper_sub" />
+  
+      <!-- Transmission virtual roll -->
+  <xacro:SimpleTransmissionPosition n="left7" joint="left_virtual_roll_joint" />
+
+  <!-- Transmission virtual yaw -->
+  <xacro:SimpleTransmissionPosition n="left8" joint="left_virtual_yaw_joint" />
+
+  
+  <!-- right arm -->
+  
+   <!-- Transmission 1 -->
+  <xacro:SimpleTransmissionPosition n="right1" joint="right_joint1" />
+
+  <!-- Transmission 2 -->
+  <xacro:SimpleTransmissionPosition n="right2" joint="right_joint2" />
+
+  <!-- Transmission 3 -->
+  <xacro:SimpleTransmissionPosition n="right3" joint="right_joint3" />
+
+  <!-- Transmission 4 -->
+  <xacro:SimpleTransmissionPosition n="right4" joint="right_joint4" />
+
+  <!-- Transmission 5 -->
+  <xacro:SimpleTransmissionEffort n="right5" joint="right_gripper" />
+
+  <!-- Transmission 6 -->
+  <xacro:SimpleTransmissionEffort n="right6" joint="right_gripper_sub" />
+  
+    <!-- Transmission virtual roll -->
+  <xacro:SimpleTransmissionPosition n="right7" joint="right_virtual_roll_joint" />
+
+  <!-- Transmission virtual yaw -->
+  <xacro:SimpleTransmissionPosition n="right8" joint="right_virtual_yaw_joint" />
+
+</robot>
