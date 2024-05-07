@@ -1,0 +1,69 @@
+<?xml version="1.0" ?>
+<launch>
+  <arg name="sim" default="true"/>
+  <arg name="usb_port" default="/dev/ttyACM0" />
+  <arg name="camera_model" default="realsense_d435i"/>
+
+  <!-- startup ros_control for real robot -->
+  <group unless="$(arg sim)">
+    <include file="$(find open_manipulator_hw)/launch/open_manipulator_control.launch">
+      <arg name="usb_port" value="$(arg usb_port)"/>
+    </include>
+  </group>
+
+  <!-- startup simulated world and spawn robot-->
+  <group if="$(arg sim)">
+    <include file="$(find open_manipulator_hw)/launch/open_manipulator_gazebo.launch"/>
+  </group>
+
+  <!-- controller utils -->
+  <include file="$(find open_manipulator_hw)/launch/controller_utils.launch"/>
+  
+  
+ 
+
+  <!-- joint_trajectory_controller -->
+  <group unless="$(arg sim)">
+    <rosparam file="$(find open_manipulator_controllers)/config/joint_trajectory_controller.yaml" command="load"/>
+    
+    
+    
+    <!-- for camera right-->
+      <include file="$(find open_manipulator_ar_markers)/launch/ar_pose.launch">
+     <param name="camera_model" value="$(arg camera_model)"/>
+  </include>
+  
+  
+    <!-- left camera -->
+   
+     <include file="$(find open_manipulator_ar_markers)/launch/ar_pose2.launch">
+     <param name="camera_model" value="$(arg camera_model)"/>
+  </include>
+  
+  
+  <!-- Octomap 
+  <rosparam command="load" file="$(find open_manipulator_moveit_config)/config/sensors_realsense_depthmap.yaml" />
+ -->
+
+ 
+
+  
+  
+  </group>
+ 
+  
+  <group if="$(arg sim)">
+    <rosparam file="$(find open_manipulator_controllers)/config/joint_trajectory_controller_gazebo.yaml" command="load"/>
+  </group>
+  <node name="arm_controller_spawner" pkg="controller_manager" type="controller_manager" respawn="false" output="screen" args="spawn right_arm_controller left_arm_controller "/>
+  
+
+  <node name="gripper_controller_spawner" pkg="controller_manager" type="controller_manager" respawn="false" output="screen" args="spawn right_gripper_controller left_gripper_controller "/>
+
+
+
+  <!-- startup move_group related -->
+  <include file="$(find open_manipulator_moveit_config)/launch/move_group.launch"/>
+  <include file="$(find open_manipulator_moveit_config)/launch/moveit_rviz.launch"/>
+  
+</launch>

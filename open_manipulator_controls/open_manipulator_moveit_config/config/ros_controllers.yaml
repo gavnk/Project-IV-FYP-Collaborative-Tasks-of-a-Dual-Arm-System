@@ -1,0 +1,111 @@
+# MoveIt-specific simulation settings
+moveit_sim_hw_interface:
+  joint_model_group: controllers_initial_group_
+  joint_model_group_pose: controllers_initial_pose_
+# Settings for ros_control control loop
+generic_hw_control_loop:
+  loop_hz: 300
+  cycle_time_error_threshold: 0.01
+# Settings for ros_control hardware interface
+hardware_interface:
+  joints:
+    - left_joint1
+    - left_joint2
+    - left_joint3
+    - left_joint4
+    - left_gripper
+    - left_virtual_roll_joint
+    - left_virtual_yaw_joint
+    - right_joint1
+    - right_joint2
+    - right_joint3
+    - right_joint4
+    - right_gripper
+    - right_virtual_roll_joint
+    - right_virtual_yaw_joint
+
+    
+  sim_control_mode: 1  # 0: position, 1: velocity
+# Publish all joint states
+# Creates the /joint_states topic necessary in ROS
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 50
+  
+controller_list:
+  - name: left_arm_controller
+    action_ns: follow_joint_trajectory
+    default: True
+    type: FollowJointTrajectory
+    joints:
+      - left_joint1
+      - left_joint2
+      - left_joint3
+      - left_joint4
+      - left_virtual_roll_joint
+      - left_virtual_yaw_joint
+      
+  - name: right_arm_controller
+    action_ns: follow_joint_trajectory
+    default: True
+    type: FollowJointTrajectory
+    joints:
+      - right_joint1
+      - right_joint2
+      - right_joint3
+      - right_joint4
+      - right_virtual_roll_joint
+      - right_virtual_yaw_joint
+      
+        
+  - name: left_gripper_controller
+    action_ns: follow_joint_trajectory
+    default: True
+    type: FollowJointTrajectory
+    joints:
+      - left_gripper
+  - name: right_gripper_controller
+    action_ns: follow_joint_trajectory
+    default: True
+    type: FollowJointTrajectory
+    joints:
+      - right_gripper 
+  
+#right_arm_controller:
+   # type: position_controllers/JointTrajectoryController
+   # joints:
+  #      - right_joint1
+  #      - right_joint2
+  #      - right_joint3
+  #      - right_joint4
+  #  constraints:
+  #      goal_time: 0.6
+  #      stopped_velocity_tolerance: 0.05
+  #      right_joint1: {trajectory: 0.1, goal: 0.1}
+  #      right_joint2: {trajectory: 0.1, goal: 0.1}
+   #     right_joint3: {trajectory: 0.1, goal: 0.1}
+  #      right_joint4: {trajectory: 0.1, goal: 0.1}
+  #  stop_trajectory_duration: 0.5
+  #  state_publish_rate:  30
+   # action_monitor_rate: 10
+
+
+
+#notice that the grippers joint2 mimics joint1
+#this is why it is not listed under the hand controllers
+#right_gripper_controller:
+ # type: position_controllers/JointTrajectoryController
+ # joints:
+  #  - right_gripper
+ # constraints:
+ #     goal_time: 0.6
+ #     stopped_velocity_tolerance: 0.05
+ #     gripper: {trajectory: 0.1, goal: 0.1}
+ # stop_trajectory_duration: 0.5
+ # state_publish_rate:  25
+  #action_monitor_rate: 10 
+ 
+ 
+
+      
+      
