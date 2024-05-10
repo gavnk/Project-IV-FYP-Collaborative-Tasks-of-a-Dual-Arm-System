@@ -11,6 +11,8 @@ Clone repo into src folder of your workspace.
 
 Move files in folder named 'Collaborative-Tasks-of-a-Dual-Arm-System' folder to src folder and delete Collaborative-Tasks-of-a-Dual-Arm-System folder
 
+return to project_ws: cd ~/project_ws/
+
 Build with Catkin_make
 
 Source workspace: source devel/setup.bash
