@@ -1,11 +1,19 @@
 # Collaborative-Tasks-of-a-Dual-Arm-System
 FYP
 
+Create a ROS workspace: mkdir project_ws
+
+Source workspace: source /opt/ros/noetic/setup.bash
+
+mkdir src
+
 Clone repo into src folder of your workspace.
 
 Move files in folder named 'Collaborative-Tasks-of-a-Dual-Arm-System' folder to src folder and delete Collaborative-Tasks-of-a-Dual-Arm-System folder
 
 Build with Catkin_make
+
+Source workspace: source devel/setup.bash
 
 Launch with: roslaunch open_manipulator_controllers joint_trajectory_controller.launch sim:=false
 
