@@ -430,23 +430,13 @@ void trajectory_plan(moveit::planning_interface::MoveGroupInterface& group){
     target_pose1.orientation.w = q_rot.w();
     target_pose1.position.x = ar_marker_pose.at(i).position[0];//0.19;
     target_pose1.position.y = ar_marker_pose.at(i).position[1];//-0.15;
-    //target_pose1.position.z =  ar_marker_pose.at(i).position[2];
     target_pose1.position.z = 0.105;//ar_marker_pose.at(0).position[2];
     group.setPoseTarget(target_pose1);
     // Create a Cartesian path
     std::vector<geometry_msgs::Pose> waypoints;
-//   geometry_msgs::Pose target_pose2 = target_pose1;
-//  // target_pose2.position.x += 0.05;
-//  // target_pose2.position.y -= 0.05; // Move up by 0.05 meters
-//   //target_pose2.position.y += 0.05; // Move up by 0.05 meters
+
     waypoints.push_back(target_pose1);
-//  // waypoints.push_back(target_pose2);
-  
-    //double eef_step = 0.01; // Step size in meters
-   // double jump_threshold = 0.0; // Jump threshold in meters
-    //moveit_msgs::RobotTrajectory trajectory;
-    //double fraction = group.computeCartesianPath(waypoints, eef_step, jump_threshold, trajectory);
-   // group.computeCartesianPath(waypoints, eef_step, jump_threshold, trajectory);
+
     moveit::planning_interface::MoveGroupInterface::Plan plan;
 
     moveit_msgs::RobotTrajectory trajectory;
@@ -461,7 +451,7 @@ void trajectory_plan(moveit::planning_interface::MoveGroupInterface& group){
     
     // Execute the Cartesian path
     
-    //plan.trajectory_ = trajectory;
+  
 
     group.execute(plan);
     group.move();
@@ -486,48 +476,44 @@ void trajectory_plan_left_arm(moveit::planning_interface::MoveGroupInterface& gr
 
   for (int i = 0; i < ar_marker_pose.size(); i ++)
   {
-  if (ar_marker_pose.at(i).id == 1)
-  {
-    target_pose1.orientation.x = q_rot.x();
-    target_pose1.orientation.y = q_rot.y();//ar_marker_pose.at(i).orientation[1]; // q_rot.y();
-    target_pose1.orientation.z = q_rot.z();
-    target_pose1.orientation.w = q_rot.w();
-    target_pose1.position.x = ar_marker_pose.at(i).position[0];//0.19;
-    target_pose1.position.y = ar_marker_pose.at(i).position[1];//-0.15;
-    //target_pose1.position.z = ar_marker_pose.at(i).position[2];
-    target_pose1.position.z = 0.22;//ar_marker_pose.at(0).position[2];
-    group.setPoseTarget(target_pose1);
-
-    // Create a Cartesian path
-    std::vector<geometry_msgs::Pose> waypoints;
-
-    waypoints.push_back(target_pose1);
-
-  
-    moveit::planning_interface::MoveGroupInterface::Plan plan;
-
-    moveit_msgs::RobotTrajectory trajectory;
-    double fraction;
-   (plan,fraction) = group.computeCartesianPath(waypoints,
-                                               0.01,  // eef_step
-                                               0.0,   // jump_threshold
-                                               trajectory);
-
-    ROS_INFO("Visualizing plan 4 (cartesian path) (%.2f%% acheived)",
-        fraction * 100.0);  
-
-    group.execute(plan);
-    group.move();
-    ros::Duration(3.0).sleep();
-    group.stop();
-    group.clearPoseTargets();
-   
-
+    if (ar_marker_pose.at(i).id == 1)
+    {
+      target_pose1.orientation.x = q_rot.x();
+      target_pose1.orientation.y = q_rot.y();//ar_marker_pose.at(i).orientation[1]; // q_rot.y();
+      target_pose1.orientation.z = q_rot.z();
+      target_pose1.orientation.w = q_rot.w();
+      target_pose1.position.x = ar_marker_pose.at(i).position[0];//0.19;
+      target_pose1.position.y = ar_marker_pose.at(i).position[1];//-0.15;
      
- 
-
-   
-   }
+      target_pose1.position.z = 0.22;//ar_marker_pose.at(0).position[2];
+      group.setPoseTarget(target_pose1);
+  
+      // Create a Cartesian path
+      std::vector<geometry_msgs::Pose> waypoints;
+  
+      waypoints.push_back(target_pose1);
+  
+    
+      moveit::planning_interface::MoveGroupInterface::Plan plan;
+  
+      moveit_msgs::RobotTrajectory trajectory;
+      double fraction;
+     (plan,fraction) = group.computeCartesianPath(waypoints,
+                                                 0.01,  // eef_step
+                                                 0.0,   // jump_threshold
+                                                 trajectory);
+  
+      ROS_INFO("Visualizing plan 4 (cartesian path) (%.2f%% acheived)",
+          fraction * 100.0);  
+  
+      group.execute(plan);
+      group.move();
+      ros::Duration(3.0).sleep();
+      group.stop();
+      group.clearPoseTargets();
+     
+  
+     }
  }
 
 }
@@ -657,7 +643,8 @@ int main(int argc, char** argv) {
   while (ros::ok()) {
       group_right.clearPoseTargets();
       geometry_msgs::PoseStamped current_pose = group_right.getCurrentPose();
-      
+
+     // perform pick up and passing of the block with an AR Tag on it.
       switch(demo_count_){
 
         case 0:
@@ -786,8 +773,9 @@ int main(int argc, char** argv) {
           initial_pose_up(group_left);
           ros::Duration(1.0).sleep();
           open_gripper(left_gripper_group);
-            
+          // end do nothing
       }
+      
 
    
     ros::spinOnce();
