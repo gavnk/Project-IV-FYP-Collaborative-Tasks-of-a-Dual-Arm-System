@@ -4,6 +4,8 @@
 # Collaborative-Tasks-of-a-Dual-Arm-System
 FYP https://www.youtube.com/@gavinkenny369/videos
 
+For Project Tasks go to directory: open_manipulator_perceptions/open_manipulator_pick_and_place/src
+
 Hardware:
 - 2x 4DOF OpenmanipulatorX Robotic Arms by Robotis
 - 2x D435i Intel RealSense Depth Cameras
