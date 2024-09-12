@@ -61,7 +61,7 @@ Launch with: roslaunch open_manipulator_controllers joint_trajectory_controller.
 
 ![image](https://github.com/user-attachments/assets/6daf9373-3b00-4b50-93c3-1d6c6d57e604)
 
-
+For only using with Hardware:
 Open another terminal:
 
 # Dual Arm Tasks in MoveIt.
