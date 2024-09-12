@@ -6,10 +6,13 @@ FYP https://www.youtube.com/@gavinkenny369/videos
 
 For Project Tasks go to directory: open_manipulator_perceptions/open_manipulator_pick_and_place/src
 
+This repo includes all the required software for the robot arms, cameras, and AR tag detection which are all open source software.
+
 Hardware:
 - 2x 4DOF OpenmanipulatorX Robotic Arms by Robotis
 - 2x D435i Intel RealSense Depth Cameras
 - 1x OPENCR Dev Board
+- AR Tags
 
 ![image](https://github.com/user-attachments/assets/41da1b03-dea8-4a8d-88dc-6535d0d70ffd)
 
