@@ -1,10 +1,9 @@
+/*****************************************************************************
 ﻿// Gavin Kenny
 // Final Year Project 2024
 // Task 3: Both arms pick up platform with handles down, pick at 45 degrees
 //  Program for papar cup, weight etc
-//
-//
-//
+ *****************************************************************************/
 #include <ros/ros.h>
 #include <moveit/move_group_interface/move_group_interface.h>
 #include <geometry_msgs/PoseStamped.h>
@@ -15,11 +14,8 @@
 #include "sensor_msgs/Imu.h"
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 #include <cmath>
-
-
 #include <moveit_msgs/DisplayRobotState.h>
 #include <moveit_msgs/DisplayTrajectory.h>
-
 #include <moveit_msgs/AttachedCollisionObject.h>
 #include <moveit_msgs/CollisionObject.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
@@ -31,15 +27,6 @@
 #include <trajectory_msgs/JointTrajectoryPoint.h>
 #include <boost/thread.hpp>
 #include <unistd.h>
-
-
-#define NUM_OF_JOINT_AND_TOOL 5
-#define HOME_POSE   1
-#define DEMO_START  2
-#define DEMO_STOP   3
-
-#define FSRPIN A0
-int fsrReading;
 
 typedef struct _ArMarker
 {
@@ -53,29 +40,22 @@ ros::Subscriber open_manipulator_joint_states_sub_;
 ros::Subscriber ar_pose_marker_sub_;
 
   
-  /*****************************************************************************
+/*****************************************************************************
   ** Variables
-  *****************************************************************************/
-
-pthread_t timer_thread_;
-pthread_attr_t attr_;
-bool timer_thread_state_;
+*****************************************************************************/
 
 uint32_t pick_ar_id_ =0;
 uint8_t demo_count_=0;
 
 
-
 void go_to_home(moveit::planning_interface::MoveGroupInterface& group) {
    
   std::vector<double> joint_group_positions;
-
   joint_group_positions = group.getCurrentJointValues();
   joint_group_positions[0]  = 0.061;
   joint_group_positions[1] = -1.118;
   joint_group_positions[2] = 0.377;
   joint_group_positions[3] = 0.819;
-
   group.setJointValueTarget(joint_group_positions);
   group.move();
 
@@ -84,13 +64,11 @@ void go_to_home(moveit::planning_interface::MoveGroupInterface& group) {
 void initial_pose(moveit::planning_interface::MoveGroupInterface& group) {
  
    std::vector<double> joint_group_positions;
- 
    joint_group_positions = group.getCurrentJointValues();
    joint_group_positions[0]  = 0.00;
    joint_group_positions[1] = -0.80;
    joint_group_positions[2] = 0.00;
    joint_group_positions[3] = 1.90;
-
    group.setJointValueTarget(joint_group_positions);
    group.move();
 
@@ -98,13 +76,11 @@ void initial_pose(moveit::planning_interface::MoveGroupInterface& group) {
 void initial_pose_up(moveit::planning_interface::MoveGroupInterface& group) {
  
    std::vector<double> joint_group_positions;
-   
    joint_group_positions = group.getCurrentJointValues();
    joint_group_positions[0]  = 0.00;
    joint_group_positions[1] = -1.361;
    joint_group_positions[2] = 0.07;
    joint_group_positions[3] = 1.832;
-
    group.setJointValueTarget(joint_group_positions);
    group.move();
 
@@ -113,7 +89,6 @@ void initial_pose_up(moveit::planning_interface::MoveGroupInterface& group) {
 void initial_pose_dual(moveit::planning_interface::MoveGroupInterface& group) {
  
    std::vector<double> joint_group_positions;
- 
    joint_group_positions = group.getCurrentJointValues();
    //left arm
    joint_group_positions[0]  = 0.00; // joint 1
@@ -135,7 +110,6 @@ void initial_pose_dual(moveit::planning_interface::MoveGroupInterface& group) {
 void both_hold_up(moveit::planning_interface::MoveGroupInterface& group) {
  
    std::vector<double> joint_group_positions;
- 
    joint_group_positions = group.getCurrentJointValues();
    //left arm
    joint_group_positions[0]  = 0.00; // joint 1
@@ -158,7 +132,6 @@ void both_hold_up(moveit::planning_interface::MoveGroupInterface& group) {
 void both_place_down(moveit::planning_interface::MoveGroupInterface& group) {
  
    std::vector<double> joint_group_positions;
- 
    joint_group_positions = group.getCurrentJointValues();
    //left arm
    joint_group_positions[0]  = 0.00; // joint 1
@@ -180,7 +153,6 @@ void both_place_down(moveit::planning_interface::MoveGroupInterface& group) {
 void hold_up_pose(moveit::planning_interface::MoveGroupInterface& group) {
  
    std::vector<double> joint_group_positions;
-   
    joint_group_positions = group.getCurrentJointValues();
    joint_group_positions[0]  = 1.57;
    joint_group_positions[1] = -0.715;
@@ -195,7 +167,6 @@ void hold_up_pose(moveit::planning_interface::MoveGroupInterface& group) {
 void both_go_to_pick(moveit::planning_interface::MoveGroupInterface& group) {
  
    std::vector<double> joint_group_positions;
- 
    joint_group_positions = group.getCurrentJointValues();
    //left arm
    joint_group_positions[0]  = 0.00; // joint 1
@@ -217,7 +188,6 @@ void both_go_to_pick(moveit::planning_interface::MoveGroupInterface& group) {
 void both_go_pick_up(moveit::planning_interface::MoveGroupInterface& group) {
  
    std::vector<double> joint_group_positions;
- 
    joint_group_positions = group.getCurrentJointValues();
    //left arm
    joint_group_positions[0]  = 0.00; // joint 1
@@ -240,7 +210,6 @@ void both_go_pick_up(moveit::planning_interface::MoveGroupInterface& group) {
 void left_ready_pose(moveit::planning_interface::MoveGroupInterface& group) {
  
    std::vector<double> joint_group_positions;
-   
    joint_group_positions = group.getCurrentJointValues();
    joint_group_positions[0]  = -1.57;
    joint_group_positions[1] = -1.5;
@@ -255,7 +224,6 @@ void left_ready_pose(moveit::planning_interface::MoveGroupInterface& group) {
 void home_pose(moveit::planning_interface::MoveGroupInterface& group) {
  
    std::vector<double> joint_group_positions;
-   
    joint_group_positions = group.getCurrentJointValues();
    joint_group_positions[0]  = 0.00;
    joint_group_positions[1] = -1.43;
@@ -270,7 +238,6 @@ void home_pose(moveit::planning_interface::MoveGroupInterface& group) {
 void place_pose(moveit::planning_interface::MoveGroupInterface& group) {
  
    std::vector<double> joint_group_positions;
-   
    joint_group_positions = group.getCurrentJointValues();
    joint_group_positions[0]  = 0.00;
    joint_group_positions[1] = -0.00;
@@ -285,7 +252,6 @@ void place_pose(moveit::planning_interface::MoveGroupInterface& group) {
 void set_joint_value(moveit::planning_interface::MoveGroupInterface& group,double joint4) {
  
    std::vector<double> joint_group_positions;
-   
    joint_group_positions = group.getCurrentJointValues();
    joint_group_positions[0]  = 0.00;
    joint_group_positions[1] = 0.00;
@@ -300,10 +266,8 @@ void set_joint_value(moveit::planning_interface::MoveGroupInterface& group,doubl
 void close_gripper(moveit::planning_interface::MoveGroupInterface& group) {
  
    std::vector<double> joint_group_positions;
- 
    joint_group_positions = group.getCurrentJointValues();
    joint_group_positions[0] = 0.003;
-   
    group.setJointValueTarget(joint_group_positions);
    group.move();
 
@@ -312,34 +276,28 @@ void close_gripper(moveit::planning_interface::MoveGroupInterface& group) {
 void open_gripper(moveit::planning_interface::MoveGroupInterface& group) {
  
    std::vector<double> joint_group_positions;
- 
    joint_group_positions = group.getCurrentJointValues();
    joint_group_positions[0] = -0.007;
-   
    group.setJointValueTarget(joint_group_positions);
    group.move();
 
 }
 
 void close_both_grippers(moveit::planning_interface::MoveGroupInterface& group){
-     std::vector<double> joint_group_positions;
- 
+   std::vector<double> joint_group_positions;
    joint_group_positions = group.getCurrentJointValues();
    joint_group_positions[0] = 0.003;
    joint_group_positions[2] = 0.003;
-   
    group.setJointValueTarget(joint_group_positions);
    group.move();
 
 }
 
 void open_both_grippers(moveit::planning_interface::MoveGroupInterface& group){
-     std::vector<double> joint_group_positions;
- 
+   std::vector<double> joint_group_positions;
    joint_group_positions = group.getCurrentJointValues();
    joint_group_positions[0] = -0.007;
    joint_group_positions[2] = -0.007;
-   
    group.setJointValueTarget(joint_group_positions);
    group.move();
 
@@ -351,11 +309,8 @@ void open_both_grippers(moveit::planning_interface::MoveGroupInterface& group){
 void joint_base_min45(moveit::planning_interface::MoveGroupInterface& group) {
  
    std::vector<double> joint_group_positions;
- 
    joint_group_positions = group.getCurrentJointValues();
    joint_group_positions[0]  = -0.785;
- 
-
    group.setJointValueTarget(joint_group_positions);
    group.move();
 
@@ -371,9 +326,6 @@ void arPoseMarkerCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr &msg
     temp.position[0] = msg->markers.at(i).pose.pose.position.x;
     temp.position[1] = msg->markers.at(i).pose.pose.position.y;
     temp.position[2] = msg->markers.at(i).pose.pose.position.z;
-   // temp.orientation[1] = msg->markers.at(i).pose.pose.orientation.y;
-    
-
     temp_buffer.push_back(temp);
   }
 
@@ -382,13 +334,11 @@ void arPoseMarkerCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr &msg
 
 void arTagCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr& msg)
 {
-    if (msg->markers.empty())
-    {
-        ROS_INFO("No AR tag detected.");
+    if (msg->markers.empty()) {
+      ROS_INFO("No AR tag detected.");
     }
-    else
-    {
-        ROS_INFO("AR tag detected!");
+    else{
+      ROS_INFO("AR tag detected!");
         // Additional code to handle the detected tag
     }
 }
@@ -408,7 +358,6 @@ void set_pose(moveit::planning_interface::MoveGroupInterface& group) {
   target_pose.pose.orientation.z = 0.000432432;//quat.z();
   target_pose.pose.orientation.w = 1.0;//quat.w();
 
- 
   group.setPoseTarget(target_pose);
   moveit::planning_interface::MoveGroupInterface::Plan my_plan;
 
@@ -418,12 +367,12 @@ void set_pose(moveit::planning_interface::MoveGroupInterface& group) {
   if (success)
   {
     ROS_INFO("Planning succeeded!");
-        // Execute the plan
-        group.execute(my_plan);
+    // Execute the plan
+    group.execute(my_plan);
   }
   else
   {
-        ROS_ERROR("Failed to plan pose!");
+    ROS_ERROR("Failed to plan pose!");
   }
 
 
@@ -436,13 +385,9 @@ void set_waypoints(moveit::planning_interface::MoveGroupInterface& group) {
 
   std::vector<geometry_msgs::Pose> waypoints;
   double fraction;
-
   geometry_msgs::Pose start_pose = group.getCurrentPose().pose;
-   
   moveit::planning_interface::MoveGroupInterface::Plan plan;
-
   geometry_msgs::Pose target_pose2 = start_pose;
-
   target_pose2.position.x += 0.2;
   waypoints.push_back(target_pose2);  
   moveit_msgs::RobotTrajectory trajectory;
@@ -463,9 +408,7 @@ void set_waypoints2(moveit::planning_interface::MoveGroupInterface& group) {
 
   std::vector<geometry_msgs::Pose> waypoints;
   double fraction;
-
   geometry_msgs::Pose start_pose = group.getCurrentPose().pose;
-
   waypoints.push_back(start_pose);
    
   start_pose.position.x = 0.0477828;
@@ -577,33 +520,26 @@ void trajectory_plan(moveit::planning_interface::MoveGroupInterface& group){
                                                  0.0,   // jump_threshold
                                                  trajectory);
   
-     ROS_INFO("Visualizing plan 4 (cartesian path) (%.2f%% acheived)",
-          fraction * 100.0);  
-  
-  
-   
-    if (fraction == 1.0)
-    {
-      ROS_INFO("Planning succeeded!");
-          // Execute the plan
-          group.execute(plan);
-          group.move();
-          demo_count_=3;
+     ROS_INFO("Visualizing plan 4 (cartesian path) (%.2f%% acheived)", fraction * 100.0);  
+
+     if (fraction == 1.0)
+     {
+       ROS_INFO("Planning succeeded!");
+       // Execute the plan
+       group.execute(plan);
+       group.move();
+       demo_count_ = 3;
+     }
+     else {
+       ROS_ERROR("Failed to plan pose!");
+       demo_count_ = 1;
     }
-    else
-    {
-          ROS_ERROR("Failed to plan pose!");
-          demo_count_=1;
-  
-    }
+    
+    ros::Duration(3.0).sleep();
+    group.stop();
+    group.clearPoseTargets();
       
-   
-      
-      ros::Duration(3.0).sleep();
-      group.stop();
-      group.clearPoseTargets();
-      
-     return;
+    return;
   }
     
   }
@@ -611,71 +547,62 @@ void trajectory_plan(moveit::planning_interface::MoveGroupInterface& group){
 }
 
 void trajectory_plan_left_arm(moveit::planning_interface::MoveGroupInterface& group){
-
+  
   tf2::Quaternion q_orig, q_rot, q_new;
   geometry_msgs::Pose target_pose1;
     ///        ROLL, PITCH, YAW  /in RADIANS  // 1.57 radians for 90 degrees
   q_rot.setRPY(0.00, 0.78, 0.00);
   q_rot.normalize();
-
-
- for (int i = 0; i < ar_marker_pose.size(); i ++)
- {
- if (ar_marker_pose.at(i).id == 1)
- {
-    target_pose1.orientation.x = q_rot.x();
-    target_pose1.orientation.y = q_rot.y();//ar_marker_pose.at(i).orientation[1]; // q_rot.y();
-    target_pose1.orientation.z = q_rot.z();
-    target_pose1.orientation.w = q_rot.w();
-    target_pose1.position.x = ar_marker_pose.at(i).position[0];//0.19;
-    target_pose1.position.y = ar_marker_pose.at(i).position[1];//-0.15;
+  for (int i = 0; i < ar_marker_pose.size(); i ++) {
+    if (ar_marker_pose.at(i).id == 1){
+      
+      target_pose1.orientation.x = q_rot.x();
+      target_pose1.orientation.y = q_rot.y();//ar_marker_pose.at(i).orientation[1]; // q_rot.y();
+      target_pose1.orientation.z = q_rot.z();
+      target_pose1.orientation.w = q_rot.w();
+      target_pose1.position.x = ar_marker_pose.at(i).position[0];//0.19;
+      target_pose1.position.y = ar_marker_pose.at(i).position[1];//-0.15;
+    
+      target_pose1.position.z = 0.05;
+      group.setPoseTarget(target_pose1);
+      // Create a Cartesian path
+      std::vector<geometry_msgs::Pose> waypoints;
   
-    target_pose1.position.z = 0.05;
-    group.setPoseTarget(target_pose1);
-    // Create a Cartesian path
-    std::vector<geometry_msgs::Pose> waypoints;
-
-    waypoints.push_back(target_pose1);
-//  // waypoints.push_back(target_pose2);
-   group.allowReplanning(true);
-  moveit::planning_interface::MoveGroupInterface::Plan plan;
-    moveit_msgs::RobotTrajectory trajectory;
-    double fraction;
-   (plan,fraction) = group.computeCartesianPath(waypoints,
-                                               0.01,  // eef_step
-                                               0.0,   // jump_threshold
-                                               trajectory);
-
-   ROS_INFO("Visualizing plan 4 (cartesian path) (%.2f%% acheived)",
-        fraction * 100.0);  
-
-  if (fraction == 1.0)
-  {
-    ROS_INFO("Planning succeeded!");
+      waypoints.push_back(target_pose1);
+  //  // waypoints.push_back(target_pose2);
+      group.allowReplanning(true);
+      moveit::planning_interface::MoveGroupInterface::Plan plan;
+      moveit_msgs::RobotTrajectory trajectory;
+      double fraction;
+      (plan,fraction) = group.computeCartesianPath(waypoints,
+                                                 0.01,  // eef_step
+                                                 0.0,   // jump_threshold
+                                                 trajectory);
+  
+      ROS_INFO("Visualizing plan 4 (cartesian path) (%.2f%% acheived)",
+          fraction * 100.0);  
+  
+      if (fraction == 1.0)
+      {
+        ROS_INFO("Planning succeeded!");
         // Execute the plan
         group.execute(plan);
         group.move();
         demo_count_ =5;
-  }
-  else
-  {
+      }
+      else{
         ROS_ERROR("Failed to plan pose!");
         demo_count_=3;
+  
+      }
+      ros::Duration(3.0).sleep();
+      group.stop();
+      group.clearPoseTargets();
+  
+      return;
+  
 
-  }
-
-   // group.execute(plan);
-   // group.move();
-    ros::Duration(3.0).sleep();
-    group.stop();
-    group.clearPoseTargets();
-   
-   
-     
-   return;
-
-   
-   }
+    }
  }
 
 }
@@ -737,7 +664,7 @@ void trajectory_plan_both_arm(moveit::planning_interface::MoveGroupInterface& gr
 
     ros::Duration(1.0).sleep();
 
-        target_pose_r.position.x = 0.16;
+    target_pose_r.position.x = 0.16;
     target_pose_r.position.y = -0.15;
     target_pose_r.position.z = 0.11;
     target_pose_r.orientation.x = q_rot.x();
@@ -759,7 +686,7 @@ void trajectory_plan_both_arm(moveit::planning_interface::MoveGroupInterface& gr
   
     group_dual.move();
 
-       ros::Duration(1.0).sleep();
+    ros::Duration(1.0).sleep();
 
     target_pose_r.position.x = 0.22;
     target_pose_r.position.y = -0.15;
@@ -835,34 +762,32 @@ void both_go_to_pose_AR(moveit::planning_interface::MoveGroupInterface& group_le
 
    for (int i = 0; i < ar_marker_pose.size(); i ++)
    {
-   if (ar_marker_pose.at(i).id == 0)
-   {
-    target_pose_r.position.x = ar_marker_pose.at(i).position[0];
-    target_pose_r.position.y = ar_marker_pose.at(i).position[1];
-    target_pose_r.position.z = 0.10;
-    target_pose_r.orientation.x = q_rot.x();
-    target_pose_r.orientation.y = q_rot.y();
-    target_pose_r.orientation.z = q_rot.z();
-    target_pose_r.orientation.w = q_rot.w();
-    group_dual.setPoseTarget(target_pose_r,group_right.getEndEffectorLink());
-     group_dual.move();
-   } 
-    ros::Duration(1.0).sleep();
-    if (ar_marker_pose.at(i).id == 1)
-   {
-
-
-    target_pose_l.position.x = ar_marker_pose.at(i).position[0];
-    target_pose_l.position.y = ar_marker_pose.at(i).position[1];
-    target_pose_l.position.z = 0.10;
-    target_pose_l.orientation.x = q_rot.x();
-    target_pose_l.orientation.y = q_rot.y();
-    target_pose_l.orientation.z = q_rot.z();
-    target_pose_l.orientation.w = q_rot.w();
-    group_dual.setPoseTarget(target_pose_l,group_left.getEndEffectorLink());
-     group_dual.move();
-   }
-     
+     if (ar_marker_pose.at(i).id == 0)
+     {
+       target_pose_r.position.x = ar_marker_pose.at(i).position[0];
+       target_pose_r.position.y = ar_marker_pose.at(i).position[1];
+       target_pose_r.position.z = 0.10;
+       target_pose_r.orientation.x = q_rot.x();
+       target_pose_r.orientation.y = q_rot.y();
+       target_pose_r.orientation.z = q_rot.z();
+       target_pose_r.orientation.w = q_rot.w();
+       group_dual.setPoseTarget(target_pose_r,group_right.getEndEffectorLink());
+       group_dual.move();
+     } 
+     ros::Duration(1.0).sleep();
+     if (ar_marker_pose.at(i).id == 1)
+     {
+       target_pose_l.position.x = ar_marker_pose.at(i).position[0];
+       target_pose_l.position.y = ar_marker_pose.at(i).position[1];
+       target_pose_l.position.z = 0.10;
+       target_pose_l.orientation.x = q_rot.x();
+       target_pose_l.orientation.y = q_rot.y();
+       target_pose_l.orientation.z = q_rot.z();
+       target_pose_l.orientation.w = q_rot.w();
+       group_dual.setPoseTarget(target_pose_l,group_left.getEndEffectorLink());
+       group_dual.move();
+     }
+       
    }
 
 }
@@ -873,10 +798,7 @@ void printText()
 {
 
  printf("AR Tag searching...\n");
-
- 
-  printf("-----------------------------\n");
-
+ printf("-----------------------------\n");
  // if (ar_marker_pose.size()) printf("AR marker detected.\n");
   for (int i = 0; i < ar_marker_pose.size(); i ++)
   {
@@ -944,9 +866,8 @@ int main(int argc, char** argv) {
 
       
       switch(demo_count_){
-
         case 0:
-         open_both_grippers(group_dual_grippers);
+          open_both_grippers(group_dual_grippers);
           initial_pose_dual(group_dual_arms);
           ros::Duration(1.0).sleep();
           open_both_grippers(group_dual_grippers);
@@ -956,96 +877,82 @@ int main(int argc, char** argv) {
           open_both_grippers(group_dual_grippers);   
           demo_count_=1;
           break;
-       case 1:
-        // ros::Duration(1.0).sleep();
-         printText();  // print ar_tag position
-         demo_count_=2;
-         break;
-       case 2:
+        case 1:
+          // ros::Duration(1.0).sleep();
+          printText();  // print ar_tag position
+          demo_count_ = 2;
+          break;
+        case 2:
           //ros::Duration(1.0).sleep();
-           if (ar_marker_pose.size()) 
-           {
-              printf(" AR marker detected.\n");
-              printf("Planning....\n");
-               ros::Duration(1.0).sleep();
-              trajectory_plan(group_right);
-                
-                
-           }
-           else
-           {
-               printf("No AR tag detected!\n");
-               demo_count_=1;
-               
-           }
-         
-     
+          if (ar_marker_pose.size()) 
+          {
+            printf(" AR marker detected.\n");
+            printf("Planning....\n");
+            ros::Duration(1.0).sleep();
+            trajectory_plan(group_right);        
+          }
+          else{
+            printf("No AR tag detected!\n");
+            demo_count_ = 1;   
+          }
           break;
         case 3:
-         //  ros::Duration(2.0).sleep();
+          //  ros::Duration(2.0).sleep();
           printText();  // print ar_tag position
-          demo_count_=4;
+          demo_count_ = 4;
           break;
         case 4:
           ros::Duration(2.0).sleep();
           if (ar_marker_pose.size()) // if AR marker detected
           {
-              printf("AR marker detected.\n");
-              printf("Planning....\n");
-              trajectory_plan_left_arm(group_left);
-              
+            printf("AR marker detected.\n");
+            printf("Planning....\n");
+            trajectory_plan_left_arm(group_left);      
           }
-          else
-          {
-              printf(" No AR tag detected!\n");
-              demo_count_=3;
-              
+          else{
+            printf(" No AR tag detected!\n");
+            demo_count_ = 3;     
           }
-      
           break;
         case 5:
-            ros::Duration(1.0).sleep();
-            printf("Closing grippers....\n");
-            close_both_grippers(group_dual_grippers);
-            demo_count_=6;
-            break;
-      
+          ros::Duration(1.0).sleep();
+          printf("Closing grippers....\n");
+          close_both_grippers(group_dual_grippers);
+          demo_count_ = 6;
+          break;
         case 6:
-            group_right.setMaxVelocityScalingFactor(0.1); 
-            group_left.setMaxVelocityScalingFactor(0.1); 
-            printf("Holding up....\n");
-              ros::Duration(1.0).sleep();    
-           // both_hold_up(group_dual_arms);
-            trajectory_plan_both_arm(group_left, group_right, group_dual_arms);
-            
-            demo_count_=7;
-            break;
+          group_right.setMaxVelocityScalingFactor(0.1); 
+          group_left.setMaxVelocityScalingFactor(0.1); 
+          printf("Holding up....\n");
+          ros::Duration(1.0).sleep();    
+          // both_hold_up(group_dual_arms);
+          trajectory_plan_both_arm(group_left, group_right, group_dual_arms);
+          demo_count_ = 7;
+          break;
         case 7:
-            ros::Duration(4.0).sleep();
-            group_right.setMaxVelocityScalingFactor(0.3); 
-            group_left.setMaxVelocityScalingFactor(0.3); 
-            printf("Placing down....\n");
-            //both_place_down(group_dual_arms);
-            both_place_down_pose(group_left, group_right, group_dual_arms);
-            demo_count_=8;
-           break;
+          ros::Duration(4.0).sleep();
+          group_right.setMaxVelocityScalingFactor(0.3); 
+          group_left.setMaxVelocityScalingFactor(0.3); 
+          printf("Placing down....\n");
+          //both_place_down(group_dual_arms);
+          both_place_down_pose(group_left, group_right, group_dual_arms);
+          demo_count_ = 8;
+          break;
         case 8:
-            printf("Opening grippers....\n");
-            ros::Duration(1.0).sleep();
-            open_both_grippers(group_dual_grippers);
-            demo_count_=9;
-            break;
+          printf("Opening grippers....\n");
+          ros::Duration(1.0).sleep();
+          open_both_grippers(group_dual_grippers);
+          demo_count_ = 9;
+          break;
         case  9:
-            printf("Going to ready pose....\n");
-            ros::Duration(1.0).sleep();
-            initial_pose_dual(group_dual_arms);
-            demo_count_=9;
-            break;
-      }
+          printf("Going to ready pose....\n");
+          ros::Duration(1.0).sleep();
+          initial_pose_dual(group_dual_arms);
+          demo_count_ = 9;
+          break;
+     }
 
-      
     
-   
     ros::spinOnce();
        
   }
