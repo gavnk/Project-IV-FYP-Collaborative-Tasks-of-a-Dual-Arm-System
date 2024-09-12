@@ -37,21 +37,23 @@ Software:
 
 ![image](https://github.com/user-attachments/assets/bf5ced25-75cd-4f7e-bf5e-8c754dbaf8c8)
 
-
+How to start:
 
 Create a ROS workspace: mkdir project_ws
+
+dir project_ws
 
 Source workspace: source /opt/ros/noetic/setup.bash
 
 mkdir src
 
-Clone repo into src folder of your workspace.
+Clone repo into src folder of your workspace : git clone...
 
-Move files in folder named 'Collaborative-Tasks-of-a-Dual-Arm-System' folder to src folder and delete Collaborative-Tasks-of-a-Dual-Arm-System folder
+Move files in folder named 'Collaborative-Tasks-of-a-Dual-Arm-System' folder to src folder and delete Collaborative-Tasks-of-a-Dual-Arm-System now empty folder
 
 return to project_ws: cd ~/project_ws/
 
-Build with Catkin_make
+Build with: catkin_make
 
 Source workspace: source devel/setup.bash
 
