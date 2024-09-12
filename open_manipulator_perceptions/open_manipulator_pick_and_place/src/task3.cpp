@@ -52,7 +52,6 @@ ros::Subscriber open_manipulator_states_sub_;
 ros::Subscriber open_manipulator_joint_states_sub_;
 ros::Subscriber ar_pose_marker_sub_;
 
-  // Thread parameter
   
   /*****************************************************************************
   ** Variables
@@ -63,20 +62,9 @@ pthread_attr_t attr_;
 bool timer_thread_state_;
 
 uint32_t pick_ar_id_ =0;
- uint8_t demo_count_=0;
+uint8_t demo_count_=0;
 
- // PID Controller parameters
-const double Kp = 0.500;
-const double Ki = 0.50;
-const double Kd = 0.10;
 
-// Global variables
-double target_position = 0.27;
-double current_position = 0.0;
-double error_sum = 0.0;
-double prev_error = 0.0;
-double min_motor_angle = -0.785;
-double max_motor_angle = 0.785;
 
 void go_to_home(moveit::planning_interface::MoveGroupInterface& group) {
    
@@ -405,31 +393,25 @@ void arTagCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr& msg)
     }
 }
 
-//void set_pose(moveit::planning_interface::MoveGroupInterface& group, double x, double y, double z, double roll, double pitch, double yaw) {
+
 void set_pose(moveit::planning_interface::MoveGroupInterface& group) {
-  //geometry_msgs::PoseStamped target_pose;
+
   group.setStartStateToCurrentState();
- // geometry_msgs::Pose start_pose = group.getCurrentPose().pose;
- // geometry_msgs::Pose target_pose;
   geometry_msgs::PoseStamped target_pose;
   target_pose.header.frame_id = group.getPlanningFrame();
   target_pose.pose.position.x = 0.17;//ar_marker_pose.at(0).position[0];
   target_pose.pose.position.y = -0.1499;///ar_marker_pose.at(0).position[1];
   target_pose.pose.position.z = 0.038;
   tf2::Quaternion quat;
- // quat.setRPY(0.00, 0.54, 0.00);
   target_pose.pose.orientation.x = 0;///quat.x();
   target_pose.pose.orientation.y = 0.0190928;///quat.y();
   target_pose.pose.orientation.z = 0.000432432;//quat.z();
   target_pose.pose.orientation.w = 1.0;//quat.w();
-  //target_pose.header.frame_id = group.getPlanningFrame();
+
  
   group.setPoseTarget(target_pose);
   moveit::planning_interface::MoveGroupInterface::Plan my_plan;
-  //group.setPlanningTime(10);
- //group.setPlanningTime(10.0); // Increase planning time if needed
- //group.setGoalPositionTolerance(0.01); // Adjust position tolerance
- //group.setGoalOrientationTolerance(0.1); // Adjust orientation tolerance
+
 
   bool success = (group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   ROS_INFO_NAMED("tutorial", "Visualizing plan 1 (pose goal) %s", success ? "" : "FAILED");
@@ -444,11 +426,7 @@ void set_pose(moveit::planning_interface::MoveGroupInterface& group) {
         ROS_ERROR("Failed to plan pose!");
   }
 
-  //ros::Publisher display_publisher = nh.advertise<moveit_msgs::DisplayTrajectory>("/move_group/display_planned_path", 1, true);
- // moveit_msgs::DisplayTrajectory display_trajectory;
- // display_trajectory.trajectory_start = my_plan.start_state_;
- // display_trajectory.trajectory.push_back(my_plan.trajectory_);
- // display_publisher.publish(display_trajectory);
+
   ROS_INFO_STREAM("Target Pose: " << target_pose);
   ROS_INFO_STREAM("Planning result: " << success);
 
@@ -506,10 +484,7 @@ void set_waypoints2(moveit::planning_interface::MoveGroupInterface& group) {
   waypoints.push_back(start_pose);
   moveit::planning_interface::MoveGroupInterface::Plan plan;
 
-  
-
- // target_pose2.position.x += 0.2;
-  //waypoints.push_back(target_pose2);  
+   
   moveit_msgs::RobotTrajectory trajectory;
   (plan,fraction) = group.computeCartesianPath(waypoints,
                                                0.01,  // eef_step
@@ -549,10 +524,7 @@ void set_waypoints3(moveit::planning_interface::MoveGroupInterface& group) {
   waypoints.push_back(start_pose);
   moveit::planning_interface::MoveGroupInterface::Plan plan;
 
-  
-
- // target_pose2.position.x += 0.2;
-  //waypoints.push_back(target_pose2);  
+ 
   moveit_msgs::RobotTrajectory trajectory;
   (plan,fraction) = group.computeCartesianPath(waypoints,
                                                0.01,  // eef_step
@@ -596,7 +568,7 @@ void trajectory_plan(moveit::planning_interface::MoveGroupInterface& group){
 
    group.allowReplanning(true);
    group.setPlanningTime(10.0); 
-    moveit::planning_interface::MoveGroupInterface::Plan plan;
+   moveit::planning_interface::MoveGroupInterface::Plan plan;
 
     moveit_msgs::RobotTrajectory trajectory;
     double fraction;
@@ -715,10 +687,7 @@ void trajectory_plan_both_arm(moveit::planning_interface::MoveGroupInterface& gr
         ///        ROLL, PITCH, YAW  /in RADIANS  // 1.57 radians for 90 degrees
     q_rot.setRPY(0.00, 0.78, 0.00);
     q_rot.normalize();
-   // group_right.getCurrentPose();
-   // group_left.getCurrentPose();
 
-    
     target_pose_r.position.x = 0.23;
     target_pose_r.position.y = -0.15;
     target_pose_r.position.z = 0.07;
@@ -813,11 +782,7 @@ void trajectory_plan_both_arm(moveit::planning_interface::MoveGroupInterface& gr
   
     group_dual.move();
 
-   
 
- 
-
- 
 
 }
 void both_place_down_pose(moveit::planning_interface::MoveGroupInterface& group_left, moveit::planning_interface::MoveGroupInterface& group_right, moveit::planning_interface::MoveGroupInterface& group_dual)
@@ -852,20 +817,7 @@ void both_place_down_pose(moveit::planning_interface::MoveGroupInterface& group_
   
     group_dual.move();
 
-   // ros::Duration(3.0).sleep();
 
-     // target_pose_r.position.x = 0.20;
-  //  // target_pose_r.position.y = -0.15;
-   //  target_pose_r.position.z = 0.30;
-
-  //  // target_pose_l.position.x = 0.20;
-  //   //target_pose_l.position.y = 0.15;
-    // target_pose_l.position.z = 0.30;
-
-   //  group_dual.setPoseTarget(target_pose_r,group_right.getEndEffectorLink());
-   //  group_dual.setPoseTarget(target_pose_l,group_left.getEndEffectorLink());
-
-   //  group_dual.move();
 
 
 }
@@ -878,8 +830,7 @@ void both_go_to_pose_AR(moveit::planning_interface::MoveGroupInterface& group_le
         ///        ROLL, PITCH, YAW  /in RADIANS  // 1.57 radians for 90 degrees
     q_rot.setRPY(0.00, 0.00, 0.00);
     q_rot.normalize();
-   // group_right.getCurrentPose();
-   // group_left.getCurrentPose();
+
 
    for (int i = 0; i < ar_marker_pose.size(); i ++)
    {
@@ -912,13 +863,6 @@ void both_go_to_pose_AR(moveit::planning_interface::MoveGroupInterface& group_le
    }
      
    }
-     
-      
-      
-   
- 
-
- 
 
 }
 
@@ -996,71 +940,7 @@ int main(int argc, char** argv) {
  // printf("Starting......\n");
    
   while (ros::ok()) {
-   //   group_right.clearPoseTargets();
- //  group_dual_arms.clearPoseTargets();
- //  group_right.clearPoseTargets();
-  // group_left.clearPoseTargets();
 
-    // geometry_msgs::PoseStamped current_pose = group_right.getCurrentPose();
-    // initial_pose_dual(group_dual_arms);
-    // ros::Duration(1.0).sleep();
-    //initial_pose_dual(group_dual_arms);
-   // ros::Duration(1.0).sleep();
-   // open_both_grippers(group_dual_grippers);
-
-
-
-    // if (ar_marker_pose.size()) 
-    //  {
-     
-    //   for (int i = 0; i < ar_marker_pose.size(); i ++)
-    //  {
-    //     if (ar_marker_pose.at(i).id == 1)
-    //     {
-  
-    //     // Get the position of the AR marker
-    //     current_position = ar_marker_pose.at(i).position[0];
-
-    //     // Calculate the error
-    //     double error = target_position - current_position;
-
-    //     // Calculate the PID control output
-    //     double control_output = Kp * error + Ki * error_sum + Kd * (error - prev_error);
-
-    //     // Update the error sum and previous error
-    //     error_sum += error;
-    //     prev_error = error;
-          
-    //     // Apply the control output to the system
-    //     // TODO: Implement your control logic here
-    //     // Ensure control_output is within the range of valid motor angles
-    //     control_output = std::max(min_motor_angle, std::min(max_motor_angle, control_output));
-    //    // joint_group_positions = group_right.getCurrentJointValues();
-    //    // joint_group_positions[4] = control_output ;
-         
-    //    // group_right.setJointValueTarget(joint_group_positions);
-    //    // group_right.move();
-    //     set_joint_value(group_right,control_output);
-       
-
-
-
-    //     // Print the current position and control output
-    //     ROS_INFO("Current Position: %f", current_position);
-    //     ROS_INFO("Control Output: %f", control_output);
-
-    //     }
-    //  }
-    // }
-                
-    
-
-     
-
-     // trajectory_plan_both_arm(group_left, group_right, group_dual_arms);
-    // both_go_to_pose_AR(group_left, group_right, group_dual_arms);
-
-   // trajectory_plan_both_arm(group_left, group_right, group_dual_arms);
       
       switch(demo_count_){
 
@@ -1098,7 +978,7 @@ int main(int argc, char** argv) {
                
            }
          
-         // demo_count_ =3;
+     
           break;
         case 3:
          //  ros::Duration(2.0).sleep();
@@ -1120,7 +1000,7 @@ int main(int argc, char** argv) {
               demo_count_=3;
               
           }
-         // demo_count_ =5;
+      
           break;
         case 5:
             ros::Duration(1.0).sleep();
