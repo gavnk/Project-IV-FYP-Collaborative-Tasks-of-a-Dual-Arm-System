@@ -1,5 +1,41 @@
+
+
+
 # Collaborative-Tasks-of-a-Dual-Arm-System
 FYP https://www.youtube.com/@gavinkenny369/videos
+
+Hardware:
+- 2x 4DOF OpenmanipulatorX Robotic Arms by Robotis
+- 2x D435i Intel RealSense Depth Cameras
+- 1x OPENCR Dev Board
+
+![image](https://github.com/user-attachments/assets/41da1b03-dea8-4a8d-88dc-6535d0d70ffd)
+
+![image](https://github.com/user-attachments/assets/2ae44f37-f5f1-4ce8-a8e8-e822f5877429)
+
+![image](https://github.com/user-attachments/assets/3ec9e5e6-36ee-4b0e-ba46-477125611656)
+
+![image](https://github.com/user-attachments/assets/9bb4574b-55c6-4fec-8d01-7638aa418193)
+
+![image](https://github.com/user-attachments/assets/88248111-5042-46fb-a5d0-0240c39dfafa)
+
+![image](https://github.com/user-attachments/assets/ef20e3ba-181a-4b75-be30-f5dba8a70092)
+
+![image](https://github.com/user-attachments/assets/4062eefb-2f29-4b98-aaa1-50f128a2e4c5)
+
+
+Software:
+- ROS1 Noetic
+- Linux 20.04
+![image](https://github.com/user-attachments/assets/419bcf2c-86fa-4579-8556-5bb3b565bf9b)
+
+- MoveIt
+![image](https://github.com/user-attachments/assets/af084c43-0da2-4c85-8035-c8705ea6fb54)
+
+
+![image](https://github.com/user-attachments/assets/bf5ced25-75cd-4f7e-bf5e-8c754dbaf8c8)
+
+
 
 Create a ROS workspace: mkdir project_ws
 
@@ -17,7 +53,10 @@ Build with Catkin_make
 
 Source workspace: source devel/setup.bash
 
-Launch with: roslaunch open_manipulator_controllers joint_trajectory_controller.launch sim:=false
+Launch with: roslaunch open_manipulator_controllers joint_trajectory_controller.launch sim:=true
+
+![image](https://github.com/user-attachments/assets/6daf9373-3b00-4b50-93c3-1d6c6d57e604)
+
 
 Open another terminal:
 
