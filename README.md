@@ -13,10 +13,10 @@ This is a solution to the existing moveit setup for the openmanipulator
 arms to allow for IK movements and control of the end effector and not just the joints.
 
 By running the tasks below, the camera will detect the AR tag markers 1,2 or 3 and start performing the operations.
-Task 1: Passing of an object
-Task 2: Pick up Platform 1
-Taks 3: Pick up Platform 2
-Task 4: Custom PID control of shared object
+- Task 1: Passing of an object
+- Task 2: Pick up Platform 1
+- Task 3: Pick up Platform 2
+- Task 4: Custom PID control of shared object
 
 Hardware:
 - 2x 4DOF OpenmanipulatorX Robotic Arms by Robotis
