@@ -8,6 +8,16 @@ For Project Tasks go to directory: open_manipulator_perceptions/open_manipulator
 
 This repo includes all the required software for the robot arms, cameras, and AR tag detection which are all open source software.
 
+Moveit needs 6DOF to work, so 2 virtual joints were added. 
+This is a solution to the existing moveit setup for the openmanipulator 
+arms to allow for IK movements and control of the end effector and not just the joints.
+
+By running the tasks below, the camera will detect the AR tag markers 1,2 or 3 and start performing the operations.
+Task 1: Passing of an object
+Task 2: Pick up Platform 1
+Taks 3: Pick up Platform 2
+Task 4: Custom PID control of shared object
+
 Hardware:
 - 2x 4DOF OpenmanipulatorX Robotic Arms by Robotis
 - 2x D435i Intel RealSense Depth Cameras
