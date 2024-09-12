@@ -550,61 +550,62 @@ void trajectory_plan(moveit::planning_interface::MoveGroupInterface& group){
 
   for (int i = 0; i < ar_marker_pose.size(); i ++)
   {
-  if (ar_marker_pose.at(i).id == 0)
-  {
-    target_pose1.orientation.x = q_rot.x();
-    target_pose1.orientation.y = q_rot.y();//ar_marker_pose.at(i).orientation[1]; // q_rot.y();
-    target_pose1.orientation.z = q_rot.z();
-    target_pose1.orientation.w = q_rot.w();
-    target_pose1.position.x = ar_marker_pose.at(i).position[0];//0.19;
-    target_pose1.position.y = ar_marker_pose.at(i).position[1];//-0.15;
+    if (ar_marker_pose.at(i).id == 0)
+    {
+      target_pose1.orientation.x = q_rot.x();
+      target_pose1.orientation.y = q_rot.y();//ar_marker_pose.at(i).orientation[1]; // q_rot.y();
+      target_pose1.orientation.z = q_rot.z();
+      target_pose1.orientation.w = q_rot.w();
+      target_pose1.position.x = ar_marker_pose.at(i).position[0];//0.19;
+      target_pose1.position.y = ar_marker_pose.at(i).position[1];//-0.15;
+  
+      target_pose1.position.z = 0.05;//ar_marker_pose.at(0).position[2];
+      group.setPoseTarget(target_pose1);
+      // Create a Cartesian path
+      std::vector<geometry_msgs::Pose> waypoints;
+  
+      waypoints.push_back(target_pose1);
 
-    target_pose1.position.z = 0.05;//ar_marker_pose.at(0).position[2];
-    group.setPoseTarget(target_pose1);
-    // Create a Cartesian path
-    std::vector<geometry_msgs::Pose> waypoints;
-
-    waypoints.push_back(target_pose1);
-
-   group.allowReplanning(true);
-   group.setPlanningTime(10.0); 
-   moveit::planning_interface::MoveGroupInterface::Plan plan;
-
-    moveit_msgs::RobotTrajectory trajectory;
-    double fraction;
-   (plan,fraction) = group.computeCartesianPath(waypoints,
-                                               0.01,  // eef_step
-                                               0.0,   // jump_threshold
-                                               trajectory);
-
-   ROS_INFO("Visualizing plan 4 (cartesian path) (%.2f%% acheived)",
-        fraction * 100.0);  
-
-
- 
-  if (fraction == 1.0)
-  {
-    ROS_INFO("Planning succeeded!");
-        // Execute the plan
-        group.execute(plan);
-        group.move();
-        demo_count_=3;
-  }
-  else
-  {
-        ROS_ERROR("Failed to plan pose!");
-        demo_count_=1;
-
+      group.allowReplanning(true);
+      group.setPlanningTime(10.0); 
+      moveit::planning_interface::MoveGroupInterface::Plan plan;
+    
+      moveit_msgs::RobotTrajectory trajectory;
+      double fraction;
+      (plan,fraction) = group.computeCartesianPath(waypoints,
+                                                 0.01,  // eef_step
+                                                 0.0,   // jump_threshold
+                                                 trajectory);
+  
+     ROS_INFO("Visualizing plan 4 (cartesian path) (%.2f%% acheived)",
+          fraction * 100.0);  
+  
+  
+   
+    if (fraction == 1.0)
+    {
+      ROS_INFO("Planning succeeded!");
+          // Execute the plan
+          group.execute(plan);
+          group.move();
+          demo_count_=3;
+    }
+    else
+    {
+          ROS_ERROR("Failed to plan pose!");
+          demo_count_=1;
+  
+    }
+      
+   
+      
+      ros::Duration(3.0).sleep();
+      group.stop();
+      group.clearPoseTargets();
+      
+     return;
   }
     
- 
-    
-    ros::Duration(3.0).sleep();
-    group.stop();
-    group.clearPoseTargets();
-    
-   return;
-  }
   }
 
 }
