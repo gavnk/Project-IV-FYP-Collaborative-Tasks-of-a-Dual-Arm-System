@@ -53,7 +53,7 @@ Software:
 
 - MoveIt
   
-![image](https://github.com/user-attachments/assets/af084c43-0da2-4c85-8035-c8705ea6fb54)
+
 
 
 ![image](https://github.com/user-attachments/assets/bf5ced25-75cd-4f7e-bf5e-8c754dbaf8c8)
