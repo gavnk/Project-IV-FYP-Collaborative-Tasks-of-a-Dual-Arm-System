@@ -2,6 +2,7 @@
 
 
 # Collaborative-Tasks-of-a-Dual-Arm-System
+# ROS1 TWO OPENMANIPULATOR ROBOT ARMS
 FYP https://www.youtube.com/@gavinkenny369/videos
 
 For Project Tasks go to directory: open_manipulator_perceptions/open_manipulator_pick_and_place/src
