@@ -73,6 +73,11 @@ add_executable(task4_PID src/task4_PID.cpp)
 add_dependencies(task4_PID ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(task4_PID ${catkin_LIBRARIES} )
 
+add_executable(task1_main src/task1_main.cpp src/robot_poses.cpp)
+
+add_dependencies(task1_main ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(task1_main ${catkin_LIBRARIES} )
+
 
 
 
@@ -95,6 +100,10 @@ install(TARGETS task3
 )
 
 install(TARGETS task4_PID
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+install(TARGETS task1_main
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 install(DIRECTORY launch
