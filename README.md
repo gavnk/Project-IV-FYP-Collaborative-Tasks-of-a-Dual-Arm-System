@@ -44,20 +44,14 @@ Hardware:
 
 
 ![image](https://github.com/user-attachments/assets/2ae44f37-f5f1-4ce8-a8e8-e822f5877429)
-
-
 ![image](https://github.com/user-attachments/assets/3ec9e5e6-36ee-4b0e-ba46-477125611656)
 
 
 ![image](https://github.com/user-attachments/assets/9bb4574b-55c6-4fec-8d01-7638aa418193)
-
-
 ![image](https://github.com/user-attachments/assets/88248111-5042-46fb-a5d0-0240c39dfafa)
 
 
 ![image](https://github.com/user-attachments/assets/ef20e3ba-181a-4b75-be30-f5dba8a70092)
-
-
 ![image](https://github.com/user-attachments/assets/4062eefb-2f29-4b98-aaa1-50f128a2e4c5)
 
 
