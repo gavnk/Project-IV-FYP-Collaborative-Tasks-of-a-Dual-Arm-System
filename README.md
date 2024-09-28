@@ -11,14 +11,14 @@ The project makes use of the AR Tag `ar_track_alvar` library for object location
 
 This project was developed on a machine running `Ubuntu 20.04` and `ROS1 Noetic` distro.
 
-## ROS1 TWO OPENMANIPULATOR ROBOT ARMS
+## A Video of the Project
 FYP https://www.youtube.com/@gavinkenny369/videos
 
-For Project Tasks go to directory: open_manipulator_perceptions/open_manipulator_pick_and_place/src
+For Project Tasks go to directory: `open_manipulator_perceptions/open_manipulator_pick_and_place/src`
 
 **Update: Added class RobotPoses for task 1: Passing Of An Object, run with roslaunch open_manipulator_pick_and_place task1.main.launch,
 this includes files robot_poses.h which has all the functions for the different poses.
-This makes the design more organized, but for troubleshooting and debugging its recommended to use task1.cpp.**
+This makes the design more organized, but for troubleshooting and debugging its recommended to use the task#.cpp files.**
 
 
 This repo includes all the required software for the robot arms, cameras, and AR tag detection which are all open source software.
@@ -61,8 +61,10 @@ Hardware:
 
 
 Software:
-- ROS1 Noetic
-- Linux 20.04
+- Install ROS1 Noetic
+- Install Linux 20.04
+- Install ar tag library, see Robotis website.
+- Install realsense software, see https://github.com/IntelRealSense/realsense-ros
   
 ![image](https://github.com/user-attachments/assets/419bcf2c-86fa-4579-8556-5bb3b565bf9b)
 
@@ -70,30 +72,22 @@ Software:
   
 
 
-
 ![image](https://github.com/user-attachments/assets/bf5ced25-75cd-4f7e-bf5e-8c754dbaf8c8)
 
-How to start:
+### How to start:
 
-Create a ROS workspace: mkdir project_ws
+1. Create a ROS workspace: `mkdir project_ws`.
+2. `dir project_ws` then `mkdir src`.
+3. Source workspace: `source /opt/ros/noetic/setup.bash`
+4. Clone repo into `src` folder of your workspace : git clone...
+5. Move files in folder named `Collaborative-Tasks-of-a-Dual-Arm-System` folder to `src` folder and delete Collaborative-Tasks-of-a-Dual-Arm-System now empty folder
+6. Return to project_ws: `cd ~/project_ws/`
+7. Build with: `catkin_make`
+8. Source workspace: `source devel/setup.bash`
+9. Launch simulation: `roslaunch open_manipulator_controllers joint_trajectory_controller.launch sim:=true`.
+10. Launch Physical: `roslaunch open_manipulator_controllers joint_trajectory_controller.launch sim:=false`.
+For using the hardware, both arms must be connected to one OPENCR board, and the motor IDs may need to be changed.
 
-dir project_ws
-
-Source workspace: source /opt/ros/noetic/setup.bash
-
-mkdir src
-
-Clone repo into src folder of your workspace : git clone...
-
-Move files in folder named 'Collaborative-Tasks-of-a-Dual-Arm-System' folder to src folder and delete Collaborative-Tasks-of-a-Dual-Arm-System now empty folder
-
-return to project_ws: cd ~/project_ws/
-
-Build with: catkin_make
-
-Source workspace: source devel/setup.bash
-
-Launch with: roslaunch open_manipulator_controllers joint_trajectory_controller.launch sim:=true
 
 ![image](https://github.com/user-attachments/assets/6daf9373-3b00-4b50-93c3-1d6c6d57e604)
 
@@ -101,16 +95,16 @@ For only using with Hardware:
 Open another terminal:
 
 # Dual Arm Tasks in MoveIt.
-Task 1: Passing of an object: roslaunch open_manipulator_pick_and_place task1.launch
+### Task 1: Passing of an object: roslaunch open_manipulator_pick_and_place main.launch
 
 ![image](https://github.com/gavnk/Collaborative-Tasks-of-a-Dual-Arm-System/assets/50642905/bcb84544-4ecf-4d5d-9e43-0100308c13bf)
 ![image](https://github.com/gavnk/Collaborative-Tasks-of-a-Dual-Arm-System/assets/50642905/2d4fb88e-eea5-4db6-9fb7-8665143b945f)
 
-Task 2: Pick up Platform1: roslaunch open_manipulator_pick_and_place task2.launch
+### Task 2: Pick up Platform1: roslaunch open_manipulator_pick_and_place task2.launch
 
 ![image](https://github.com/gavnk/Collaborative-Tasks-of-a-Dual-Arm-System/assets/50642905/6748565a-2223-40a8-bcc3-ae9d9ecfc52b)
 
-Task 3: Pick up Platform2: roslaunch open_manipulator_pick_and_place task3.launch
+### Task 3: Pick up Platform2: roslaunch open_manipulator_pick_and_place task3.launch
 
 ![image](https://github.com/gavnk/Collaborative-Tasks-of-a-Dual-Arm-System/assets/50642905/cbc746ed-c5ad-4d77-bbe0-d47299beb024)
 
