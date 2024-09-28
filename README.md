@@ -85,7 +85,7 @@ Software:
 6. Return to project_ws: `cd ~/project_ws/`
 7. Build with: `catkin_make`
 8. Source workspace: `source devel/setup.bash`
-9. Launch simulation: `roslaunch open_manipulator_controllers joint_trajectory_controller.launch sim:=true`.
+9. Launch Simulation: `roslaunch open_manipulator_controllers joint_trajectory_controller.launch sim:=true`.
 10. Launch Physical: `roslaunch open_manipulator_controllers joint_trajectory_controller.launch sim:=false`.
 For using the hardware, both arms must be connected to one OPENCR board, and the motor IDs may need to be changed.
 
