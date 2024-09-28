@@ -11,8 +11,7 @@ The project makes use of the AR Tag `ar_track_alvar` library for object location
 
 This project was developed on a machine running `Ubuntu 20.04` and `ROS1 Noetic` distro.
 
-## A Video of the Project
-FYP https://www.youtube.com/@gavinkenny369/videos
+A Video of the Project: FYP https://www.youtube.com/@gavinkenny369/videos
 
 For Project Tasks go to directory: `open_manipulator_perceptions/open_manipulator_pick_and_place/src`
 
@@ -91,10 +90,10 @@ For using the hardware, both arms must be connected to one OPENCR board, and the
 
 ![image](https://github.com/user-attachments/assets/6daf9373-3b00-4b50-93c3-1d6c6d57e604)
 
+# Dual Arm Tasks in MoveIt.
 For only using with Hardware:
 Open another terminal:
 
-# Dual Arm Tasks in MoveIt.
 ### Task 1: Passing of an object: roslaunch open_manipulator_pick_and_place main.launch
 
 ![image](https://github.com/gavnk/Collaborative-Tasks-of-a-Dual-Arm-System/assets/50642905/bcb84544-4ecf-4d5d-9e43-0100308c13bf)
@@ -108,6 +107,7 @@ Open another terminal:
 
 ![image](https://github.com/gavnk/Collaborative-Tasks-of-a-Dual-Arm-System/assets/50642905/cbc746ed-c5ad-4d77-bbe0-d47299beb024)
 
+### Task 4: Manipulation of shared object: roslaunch open_manipulator_pick_and_place task4.launch
 * Before launching Task 4, Important: comment out on arm static transform publisher and uncomment off arm stp in ar_pose.launch file in open_manipulator_ar_markers package, this selects the camera setup for on a tripod behind the robots
 Task 4: PID control of shared object: roslaunch open_manipulator_pick_and_place task4_PID.launch
 
