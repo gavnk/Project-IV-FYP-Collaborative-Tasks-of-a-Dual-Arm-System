@@ -5,7 +5,7 @@
 
 ![image](https://github.com/user-attachments/assets/41da1b03-dea8-4a8d-88dc-6535d0d70ffd)
 
-## Discription: 
+## Description: 
 This project uses two `OPENMANIPULATOR-X Robotic Arms` connected to one `OPENCR` dev board to perform cooperative/collaborative tasks, such passing an object from one arm to the other,
 or lifting something together. The project also used two `D435i Realseanse Cameras` mounted directly on the arms. Most of the information for the arms can be found on the Robotis website.
 The issue with the Robotis Moveit example is it doesn't compensate for the fact that the arms are 4DOF and Moveit can only work with 6DOF. This project solves this issue by adding virtual joints.
