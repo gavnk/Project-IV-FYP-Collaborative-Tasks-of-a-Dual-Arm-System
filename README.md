@@ -2,6 +2,15 @@
 
 
 # Collaborative-Tasks-of-a-Dual-Arm-System
+
+## Discription: 
+This project uses two `OPENMANIPULATOR-X Robotic Arms` connected to one `OPENCR` dev board to perform cooperative/collaborative tasks, such passing an object from one arm to the other,
+or lifting something together. The project also used two `D435i Realseanse Cameras` mounted directly on the arms. Most of the information for the arms can be found on the Robotis website.
+The issue with the Robotis Moveit example is it doesn't compensate for the fact that the arms are 4DOF and Moveit can only work with 6DOF. This project solves this issue by adding virtual joints.
+The project makes use of the AR Tag `ar_track_alvar` library for object location.
+
+This project was developed on a machine running `Ubuntu 20.04` and `ROS1 Noetic` distro.
+
 ## ROS1 TWO OPENMANIPULATOR ROBOT ARMS
 FYP https://www.youtube.com/@gavinkenny369/videos
 
