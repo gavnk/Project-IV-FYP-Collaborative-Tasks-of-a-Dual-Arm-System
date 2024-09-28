@@ -100,11 +100,11 @@ Open another terminal:
 ![image](https://github.com/gavnk/Collaborative-Tasks-of-a-Dual-Arm-System/assets/50642905/bcb84544-4ecf-4d5d-9e43-0100308c13bf)
 ![image](https://github.com/gavnk/Collaborative-Tasks-of-a-Dual-Arm-System/assets/50642905/2d4fb88e-eea5-4db6-9fb7-8665143b945f)
 
-### Task 2: Pick up Platform1: roslaunch open_manipulator_pick_and_place task2.launch
+### Task 2: Pick up Platform 1: roslaunch open_manipulator_pick_and_place task2.launch
 
 ![image](https://github.com/gavnk/Collaborative-Tasks-of-a-Dual-Arm-System/assets/50642905/6748565a-2223-40a8-bcc3-ae9d9ecfc52b)
 
-### Task 3: Pick up Platform2: roslaunch open_manipulator_pick_and_place task3.launch
+### Task 3: Pick up Platform 2: roslaunch open_manipulator_pick_and_place task3.launch
 
 ![image](https://github.com/gavnk/Collaborative-Tasks-of-a-Dual-Arm-System/assets/50642905/cbc746ed-c5ad-4d77-bbe0-d47299beb024)
 
