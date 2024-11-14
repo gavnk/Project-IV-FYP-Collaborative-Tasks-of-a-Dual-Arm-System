@@ -17,9 +17,8 @@ A Video of the Project: FYP https://www.youtube.com/@gavinkenny369/videos
 
 For Project Tasks go to directory: `open_manipulator_perceptions/open_manipulator_pick_and_place/src`
 
-**Update: Added class RobotPoses for task 1: Passing Of An Object, run with roslaunch open_manipulator_pick_and_place task1.main.launch,
-this includes files robot_poses.h which has all the functions for the different poses.
-This makes the design more organized, but for troubleshooting and debugging its recommended to use the task#.cpp files.**
+**RobotPoses for task 1: Passing Of An Object, run with roslaunch open_manipulator_pick_and_place task1.main.launch,
+this includes files robot_poses.h which has all the functions for the different poses.**
 
 
 This repo includes all the required software for the robot arms, cameras, and AR tag detection which are all open source software.
